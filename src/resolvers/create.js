@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import User from '../Schemas/user';
-import bcrypt from 'bcrypt';
 
 const expiresIn = '1d'
 const secret = 'elpesgei'
@@ -13,7 +12,6 @@ export const createToken = (email,password) => {
 
 const user = User.findOne({'email': email}).then((user) => {
     const compare = new Promise((resolve,reject)=> {
-        bcrypt.compare(password,user.password, function(err,res){
             if(res){
                 const payload = {
                     email: user.email,
@@ -30,7 +28,6 @@ const user = User.findOne({'email': email}).then((user) => {
                 reject(false)
             }
         })
-    })
     return compare
 }).catch()
 return user
